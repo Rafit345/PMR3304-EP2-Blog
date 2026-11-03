@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Novo Post
+{% endblock title %}
+
+{% block content %}
+<section class="page-content">
+    <h1>Criar Novo Post</h1>
+    <form method="POST" action="{% url 'posts:create' %}">
+        {% csrf_token %}
+        <p>
+            <label for="id_title">Título:</label>
+            <input type="text" name="title" id="id_title" />
+        </p>
+        <p>
+            <label for="id_content">Conteúdo (HTML):</label>
+            <textarea name="content" id="id_content" rows="15"></textarea>
+        </p>
+        <button type="submit">Criar</button>
+    </form>
+    <p><a class="text-link" href="{% url 'posts:index' %}">← Voltar para a lista de posts</a></p>
+</section>
+{% endblock content %}

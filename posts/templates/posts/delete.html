@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Apagar {{ post.title }}
+{% endblock title %}
+
+{% block content %}
+<section class="page-content">
+    <h1>Apagar Post</h1>
+    <form action="{% url 'posts:delete' post.id %}" method="post">
+        {% csrf_token %}
+        <p>Você tem certeza que deseja apagar o post "{{ post.title }}"?</p>
+        <button type="submit">Apagar</button>
+    </form>
+    <p><a class="text-link" href="{% url 'posts:detail' post.id %}">← Cancelar e voltar para o post</a></p>
+</section>
+{% endblock content %}

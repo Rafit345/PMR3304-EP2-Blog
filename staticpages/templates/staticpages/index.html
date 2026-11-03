@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Página Inicial
+{% endblock title %}
+
+{% block content %}
+<section class="home-intro">
+    <div class="eyebrow">PORTFÓLIO</div>
+    <h1>Engenharia que conecta software, hardware e movimento</h1>
+    <div class="content-flow">
+        <h2>Rafael Colombini Fernandes</h2>
+        <p>Sou estudante de Engenharia Mecatrônica e de Sistemas Mecânicos na Escola Politécnica da USP, com
+            experiência em desenvolvimento full-stack, sistemas embarcados e simulação física.</p>
+        <p>Meu trabalho cruza software, eletrônica e engenharia para transformar problemas complexos em sistemas
+            mensuráveis, confiáveis e úteis.</p>
+        <h3>Em foco</h3>
+        <ul>
+            <li>Pesquisa em estabilidade e controlabilidade de veículos espaciais supersônicos.</li>
+            <li>Desenvolvimento de controle de trajetória e TVC no simulador open-source RocketPy.</li>
+            <li>APIs, interfaces web e sistemas embarcados conectados em produtos reais.</li>
+        </ul>
+        <p>
+            <a href="{% url 'about' %}">Conheça minha trajetória</a>
+            <a href="{% url 'posts:index' %}">Veja os posts</a>
+        </p>
+    </div>
+</section>
+{% endblock content %}

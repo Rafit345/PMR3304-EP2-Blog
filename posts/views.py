@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
 from .models import Post
+from .forms import PostForm
 
 
 def list_posts(request):
@@ -19,28 +20,41 @@ def detail_post(request, post_id):
 
 def create_post(request):
     if request.method == 'POST':
-        post_title = request.POST['title']
-        post_content = request.POST['content']
-        post = Post(title=post_title,
-                    content=post_content)
-        post.save()
-        return HttpResponseRedirect(
-            reverse('posts:detail', args=(post.id, )))
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post_title = form.cleaned_data['title']
+            post_content = form.cleaned_data['content']
+            post = Post(title=post_title,
+                        content=post_content)
+            post.save()
+            return HttpResponseRedirect(
+                reverse('posts:detail', args=(post.id, )))
     else:
-        return render(request, 'posts/create.html', {})
+        form = PostForm()
+    context = {'form': form}
+    return render(request, 'posts/create.html', context)
 
 
 def update_post(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
 
     if request.method == "POST":
-        post.title = request.POST['title']
-        post.content = request.POST['content']
-        post.save()
-        return HttpResponseRedirect(
-            reverse('posts:detail', args=(post.id, )))
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post.title = form.cleaned_data['title']
+            post.content = form.cleaned_data['content']
+            post.save()
+            return HttpResponseRedirect(
+                reverse('posts:detail', args=(post.id, )))
+    else:
+        # formulário preenchido com os dados atuais do post
+        form = PostForm(
+            initial={
+                'title': post.title,
+                'content': post.content,
+            })
 
-    context = {'post': post}
+    context = {'post': post, 'form': form}
     return render(request, 'posts/update.html', context)
 
 

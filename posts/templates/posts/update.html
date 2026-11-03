@@ -9,14 +9,7 @@ Editar {{ post.title }}
     <h1>Editar Post</h1>
     <form method="post" action="{% url 'posts:update' post.id %}">
         {% csrf_token %}
-        <p>
-            <label for="id_title">Título:</label>
-            <input type="text" name="title" id="id_title" value="{{ post.title }}" />
-        </p>
-        <p>
-            <label for="id_content">Conteúdo (HTML):</label>
-            <textarea name="content" id="id_content" rows="15">{{ post.content }}</textarea>
-        </p>
+        {{ form.as_p }}
         <button type="submit">Atualizar</button>
     </form>
     <p><a class="text-link" href="{% url 'posts:detail' post.id %}">← Voltar para o post</a></p>

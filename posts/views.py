@@ -1,69 +1,42 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.views import generic
 
 from .models import Post
 from .forms import PostForm
 
 
-def list_posts(request):
-    post_list = Post.objects.all()
-    context = {'post_list': post_list}
-    return render(request, 'posts/index.html', context)
+class PostListView(generic.ListView):
+    model = Post
+    template_name = 'posts/index.html'
 
 
-def detail_post(request, post_id):
-    post = get_object_or_404(Post, pk=post_id)
-    context = {'post': post}
-    return render(request, 'posts/detail.html', context)
+class PostDetailView(generic.DetailView):
+    # responde com 404 automaticamente se o post não existir
+    model = Post
+    template_name = 'posts/detail.html'
 
 
-def create_post(request):
-    if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            post_title = form.cleaned_data['title']
-            post_content = form.cleaned_data['content']
-            post = Post(title=post_title,
-                        content=post_content)
-            post.save()
-            return HttpResponseRedirect(
-                reverse('posts:detail', args=(post.id, )))
-    else:
-        form = PostForm()
-    context = {'form': form}
-    return render(request, 'posts/create.html', context)
+class PostCreateView(generic.CreateView):
+    model = Post
+    template_name = 'posts/create.html'
+    form_class = PostForm
+
+    # após criar, redireciona para a página do post
+    def get_success_url(self):
+        return reverse('posts:detail', args=(self.object.id, ))
 
 
-def update_post(request, post_id):
-    post = get_object_or_404(Post, pk=post_id)
+class PostUpdateView(generic.UpdateView):
+    model = Post
+    template_name = 'posts/update.html'
+    form_class = PostForm
 
-    if request.method == "POST":
-        form = PostForm(request.POST)
-        if form.is_valid():
-            post.title = form.cleaned_data['title']
-            post.content = form.cleaned_data['content']
-            post.save()
-            return HttpResponseRedirect(
-                reverse('posts:detail', args=(post.id, )))
-    else:
-        # formulário preenchido com os dados atuais do post
-        form = PostForm(
-            initial={
-                'title': post.title,
-                'content': post.content,
-            })
-
-    context = {'post': post, 'form': form}
-    return render(request, 'posts/update.html', context)
+    def get_success_url(self):
+        return reverse('posts:detail', args=(self.object.id, ))
 
 
-def delete_post(request, post_id):
-    post = get_object_or_404(Post, pk=post_id)
-
-    if request.method == "POST":
-        post.delete()
-        return HttpResponseRedirect(reverse('posts:index'))
-
-    context = {'post': post}
-    return render(request, 'posts/delete.html', context)
+class PostDeleteView(generic.DeleteView):
+    # GET exibe a página de confirmação; POST apaga o post
+    model = Post
+    template_name = 'posts/delete.html'
+    success_url = reverse_lazy('posts:index')

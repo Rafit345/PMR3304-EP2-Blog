@@ -103,3 +103,7 @@ button:hover, button:focus { background: var(--accent-dark); border-color: var(-
 .acoes a { color: var(--accent); }
 .errorlist { color: var(--accent-dark); font: .85rem Arial, sans-serif; }
 .content-flow img { max-width: 100%; }
+.comentarios figure { margin: 0 0 18px; padding: 16px 20px; background: var(--surface); border-left: 3px solid var(--accent); }
+.comentarios blockquote { margin: 0 0 6px; }
+.comentarios figcaption { color: var(--muted); font: .85rem Arial, sans-serif; }
+.comentarios header { width: auto; padding: 0; border: 0; }

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Comentar {{ post.title }}
+{% endblock title %}
+
+{% block content %}
+<section class="page-content">
+    <h1>Comentar o Post "{{ post.title }}"</h1>
+    <form action="{% url 'posts:comment' post.id %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Postar Comentário</button>
+    </form>
+    <p><a class="text-link" href="{% url 'posts:detail' post.id %}">← Voltar para o post</a></p>
+</section>
+{% endblock content %}

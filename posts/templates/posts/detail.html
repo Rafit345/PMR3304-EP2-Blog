@@ -9,6 +9,13 @@
     <div class="eyebrow">POST</div>
     <h1>{{ post.title }}</h1>
     <p class="lead">Postado em {{ post.date|date:"d/m/Y \à\s H:i" }}</p>
+    {% if post.categories.all %}
+    <ul class="tag-list">
+        {% for category in post.categories.all %}
+        <li><a href="{% url 'posts:category' category.id %}">{{ category.name }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
     <ul class="acoes">
         <li><a href="{% url 'posts:update' post.id %}">Editar</a></li>
         <li><a href="{% url 'posts:delete' post.id %}">Apagar</a></li>

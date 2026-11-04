@@ -107,3 +107,4 @@ button:hover, button:focus { background: var(--accent-dark); border-color: var(-
 .comentarios blockquote { margin: 0 0 6px; }
 .comentarios figcaption { color: var(--muted); font: .85rem Arial, sans-serif; }
 .comentarios header { width: auto; padding: 0; border: 0; }
+.tag-list a { text-decoration: none; }

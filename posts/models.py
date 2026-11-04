@@ -3,12 +3,22 @@ from django.conf import settings
 from django.utils import timezone
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f'{self.name}'
+
+
 class Post(models.Model):
     title = models.CharField(max_length=255)
     # conteúdo armazenado como código HTML (renderizado com o filtro safe)
     content = models.TextField()
     # data de postagem: preenchida com o momento da criação
     date = models.DateTimeField(default=timezone.now)
+    # um post pode estar em várias categorias (relacionamento N para N)
+    categories = models.ManyToManyField(Category)
 
     def __str__(self):
         return f'{self.title}'
